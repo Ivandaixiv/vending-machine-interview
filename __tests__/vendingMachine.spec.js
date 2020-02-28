@@ -64,10 +64,39 @@ describe("Vending Machine", () => {
       sodaVendingMachine.inventory.coins[4].stock = 6;
       sodaVendingMachine.inventory.coins[1].stock = 1;
     });
-    it("should return 'Your coins are now fully stocked!' ", () => {
-      expect(sodaVendingMachine.refillChange()).toEqual(
-        "Your coins are now fully stocked!"
-      );
+    it("should return full coins stock ", () => {
+      expect(sodaVendingMachine.refillChange()).toEqual([
+        {
+          denomination: "toonie",
+          value: 200,
+          stock: 25,
+          minStock: 25
+        },
+        {
+          denomination: "loonie",
+          value: 100,
+          stock: 50,
+          minStock: 50
+        },
+        {
+          denomination: "quarter",
+          value: 25,
+          stock: 200,
+          minStock: 200
+        },
+        {
+          denomination: "dime",
+          value: 10,
+          stock: 500,
+          minStock: 500
+        },
+        {
+          denomination: "nickel",
+          value: 5,
+          stock: 1000,
+          minStock: 1000
+        }
+      ]);
     });
   });
   describe("returns the amount of money that the user inserted", () => {
