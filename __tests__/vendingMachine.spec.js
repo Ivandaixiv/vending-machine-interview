@@ -12,18 +12,120 @@ describe("Vending Machine", () => {
       expect(sodaVendingMachine.getInventory).toBe(inventory);
     });
   });
-  describe("dispenses a product and caculate change if user pays exact amount", () => {
-    it("should return chips and 30 change", () => {
-      expect(sodaVendingMachine.payForProduct("A1", 180)).toEqual([
-        "Chips",
-        30
+  describe("refills the inventory if theres anything thats missing", () => {
+    beforeEach(() => {
+      sodaVendingMachine.inventory.products[3].stock = 3;
+    });
+
+    it("should return ", () => {
+      expect(sodaVendingMachine.refillProducts).toBe(true);
+      //   true means that it is full
+    });
+  });
+  describe("refills the change if theres coins thats missing", () => {
+    beforeEach(() => {
+      sodaVendingMachine.inventory.coins[3].stock = 3;
+      sodaVendingMachine.inventory.coins[4].stock = 6;
+      sodaVendingMachine.inventory.coins[1].stock = 1;
+    });
+    it("should return ", () => {
+      expect(sodaVendingMachine.refillChange).toBe(true);
+    });
+  });
+  describe("returns the amount of money that the user inserted", () => {
+    it("should return 2 toonie 1 loonie and 4 quarters", () => {
+      expect(
+        sodaVendingMachine.cancelTransaction([
+          { denomination: "toonie", quantity: 2 },
+          { denomination: "loonie", quantity: 1 },
+          { denomination: "quarter", quantity: 4 }
+        ])
+      ).toEqual([
+        { denomination: "toonie", quantity: 2 },
+        { denomination: "loonie", quantity: 1 },
+        { denomination: "quarter", quantity: 4 }
       ]);
+    });
+  });
+  describe("dispenses a product and caculate change if user pays over the required amount", () => {
+    it("should return chips and 2 quarters", () => {
+      expect(
+        sodaVendingMachine.payForProduct("A1", [
+          { denomination: "loonie", quantity: 2 }
+        ])
+      ).toEqual(["Chips", [{ denomination: "quarter", quantity: 2 }]]);
+    });
+  });
+  describe("dispenses a product and caculate change if user pays exact amount", () => {
+    it("should return chips and 0 change", () => {
+      expect(
+        sodaVendingMachine.payForProduct("A1", [
+          { denomination: "loonie", quantity: 1 },
+          { denomination: "quarter", quantity: 2 }
+        ])
+      ).toEqual(["Chips", []]);
     });
   });
   describe("does not dispense anything if user hasn't inserted the required amount", () => {
     it("should return an error", () => {
       expect(() => {
-        sodaVendingMachine.payForProduct("A2", 150);
+        sodaVendingMachine.payForProduct("A2", [
+          { denomination: "loonie", quantity: 1 },
+          { denomination: "quarter", quantity: 2 }
+        ]);
+        // "You didn't insert enough money"
+      }).toThrow();
+    });
+  });
+  describe("does not do anything because the machine doesnt have enough change to provide the user", () => {
+    it("should return the inserted coins", () => {
+      beforeEach(() => {
+        sodaVendingMachine.inventory.coins[2].stock = 0;
+      });
+      expect(
+        sodaVendingMachine.payForProduct("A1", [
+          { denomination: "loonie", quantity: 2 }
+        ])
+      ).toEqual([{ denomination: "loonie", quantity: 2 }]);
+      //   "Sorry we do not have enough change"
+    });
+  });
+  describe("does not do anything because the machine doesnt have enough of the selected product", () => {
+    it("should return the inserted coins", () => {
+      beforeEach(() => {
+        sodaVendingMachine.inventory.products[3].stock = 3;
+      });
+      expect(
+        sodaVendingMachine.payForProduct("A1", [
+          { denomination: "loonie", quantity: 2 }
+        ])
+      ).toEqual([{ denomination: "quarter", quantity: 2 }]);
+      //   "Sorry the selected item is out of stock"
+    });
+  });
+  describe("does not do anything because the machine doesnt have the selected product id", () => {
+    it("should return the inserted coins", () => {
+      expect(
+        sodaVendingMachine.payForProduct("B1", [
+          { denomination: "loonie", quantity: 2 }
+        ])
+      ).toEqual([{ denomination: "quarter", quantity: 2 }]);
+      //   "Sorry the selected item is out of stock"
+    });
+  });
+  describe("does not dispense anything if user hasn't insert any value", () => {
+    it("should return an error", () => {
+      expect(() => {
+        sodaVendingMachine.payForProduct("A2", []);
+        // "Insert Coins!"
+      }).toThrow();
+    });
+  });
+  describe("does not dispense anything if user hasn't select anything", () => {
+    it("should return an error", () => {
+      expect(() => {
+        sodaVendingMachine.payForProduct();
+        // "Select a product!"
       }).toThrow();
     });
   });
