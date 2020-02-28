@@ -17,8 +17,44 @@ describe("Vending Machine", () => {
       sodaVendingMachine.inventory.products[3].stock = 3;
     });
 
-    it("should return ", () => {
-      expect(sodaVendingMachine.refillProducts).toBe(true);
+    it("should return full inventory ", () => {
+      expect(sodaVendingMachine.refillProducts()).toEqual([
+        {
+          id: "A1",
+          name: "Chips",
+          price: 150,
+          stock: 10,
+          maxStock: 10
+        },
+        {
+          id: "A2",
+          name: "Chocolate",
+          price: 300,
+          stock: 20,
+          maxStock: 20
+        },
+        {
+          id: "A3",
+          name: "Gum",
+          price: 100,
+          stock: 30,
+          maxStock: 30
+        },
+        {
+          id: "A4",
+          name: "Soda",
+          price: 150,
+          stock: 10,
+          maxStock: 10
+        },
+        {
+          id: "A5",
+          name: "Bento",
+          price: 150,
+          stock: 5,
+          maxStock: 5
+        }
+      ]);
       //   true means that it is full
     });
   });
@@ -28,8 +64,10 @@ describe("Vending Machine", () => {
       sodaVendingMachine.inventory.coins[4].stock = 6;
       sodaVendingMachine.inventory.coins[1].stock = 1;
     });
-    it("should return ", () => {
-      expect(sodaVendingMachine.refillChange).toBe(true);
+    it("should return 'Your coins are now fully stocked!' ", () => {
+      expect(sodaVendingMachine.refillChange()).toEqual(
+        "Your coins are now fully stocked!"
+      );
     });
   });
   describe("returns the amount of money that the user inserted", () => {
