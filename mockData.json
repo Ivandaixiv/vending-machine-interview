@@ -1,0 +1,72 @@
+{
+  "products": [
+    {
+      "id": "A1",
+      "name": "Chips",
+      "price": 150,
+      "stock": 10,
+      "maxStock": 10
+    },
+    {
+      "id": "A2",
+      "name": "Chocolate",
+      "price": 300,
+      "stock": 20,
+      "maxStock": 20
+    },
+    {
+      "id": "A3",
+      "name": "Gum",
+      "price": 100,
+      "stock": 30,
+      "maxStock": 30
+    },
+    {
+      "id": "A4",
+      "name": "Soda",
+      "price": 150,
+      "stock": 10,
+      "maxStock": 10
+    },
+    {
+      "id": "A5",
+      "name": "Bento",
+      "price": 150,
+      "stock": 5,
+      "maxStock": 5
+    }
+  ],
+  "coins": [
+    {
+      "denomination": "toonie",
+      "value": 200,
+      "stock": 25,
+      "minStock": 25
+    },
+    {
+      "denomination": "loonie",
+      "value": 100,
+      "stock": 50,
+      "minStock": 50
+    },
+    {
+      "denomination": "quarter",
+      "value": 25,
+      "stock": 200,
+      "minStock": 200
+    },
+    {
+      "denomination": "dime",
+      "value": 10,
+      "stock": 500,
+      "minStock": 500
+    },
+    {
+      "denomination": "nickel",
+      "value": 5,
+      "stock": 1000,
+      "minStock": 1000
+    }
+  ],
+  "bills": []
+}
