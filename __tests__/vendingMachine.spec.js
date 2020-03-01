@@ -59,6 +59,7 @@ describe("Vending Machine", () => {
     });
   });
   describe("refills the change if theres coins thats missing", () => {
+    // Alternative test could be checking if it would add more coins if the coins are overstocked
     beforeEach(() => {
       sodaVendingMachine.inventory.coins[3].stock = 3;
       sodaVendingMachine.inventory.coins[4].stock = 6;
@@ -158,15 +159,15 @@ describe("Vending Machine", () => {
     });
   });
   describe("does not do anything because the machine doesnt have enough of the selected product", () => {
+    beforeEach(() => {
+      sodaVendingMachine.inventory.products[3].stock = 0;
+    });
     it("should return the inserted coins", () => {
-      beforeEach(() => {
-        sodaVendingMachine.inventory.products[3].stock = 3;
-      });
       expect(
-        sodaVendingMachine.payForProduct("A1", [
-          { denomination: "loonie", quantity: 2 }
+        sodaVendingMachine.payForProduct("A4", [
+          { denomination: "toonie", quantity: 2 }
         ])
-      ).toEqual([{ denomination: "quarter", quantity: 2 }]);
+      ).toEqual([{ denomination: "toonie", quantity: 2 }]);
       //   "Sorry the selected item is out of stock"
     });
   });
@@ -176,8 +177,8 @@ describe("Vending Machine", () => {
         sodaVendingMachine.payForProduct("B1", [
           { denomination: "loonie", quantity: 2 }
         ])
-      ).toEqual([{ denomination: "quarter", quantity: 2 }]);
-      //   "Sorry the selected item is out of stock"
+      ).toEqual([{ denomination: "loonie", quantity: 2 }]);
+      //   "Sorry we do not have the selected item"
     });
   });
   describe("does not dispense anything if user hasn't insert any value", () => {
