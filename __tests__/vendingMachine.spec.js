@@ -147,11 +147,7 @@ describe("Vending Machine", () => {
   });
   describe("does not do anything because the machine doesnt have enough change to provide the user", () => {
     beforeEach(() => {
-      sodaVendingMachine.inventory.coins[0].stock = 0;
-      sodaVendingMachine.inventory.coins[1].stock = 0;
       sodaVendingMachine.inventory.coins[2].stock = 0;
-      sodaVendingMachine.inventory.coins[3].stock = 0;
-      sodaVendingMachine.inventory.coins[4].stock = 0;
     });
     it("should return the inserted coins", () => {
       expect(
